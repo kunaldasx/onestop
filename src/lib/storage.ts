@@ -1,20 +1,14 @@
 import { 
-  type User, 
-  type InsertUser, 
   type ContactSubmission, 
   type InsertContact,
   type BlogPost,
   type InsertBlogPost,
-  blogPosts
 } from "@shared/schema";
 import { randomUUID } from "crypto";
-import { db } from "./db";
-import { eq, desc } from "drizzle-orm";
+import { getDb } from "./db";
+import type { Collection, Filter } from "mongodb";
 
 export interface IStorage {
-  getUser(id: string): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
   createContactSubmission(contact: InsertContact): Promise<ContactSubmission>;
   getContactSubmissions(): Promise<ContactSubmission[]>;
   getBlogPosts(publishedOnly?: boolean): Promise<BlogPost[]>;
@@ -25,110 +19,174 @@ export interface IStorage {
   deleteBlogPost(id: string): Promise<boolean>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<string, User>;
-  private contacts: Map<string, ContactSubmission>;
-  private blogPostsMap: Map<string, BlogPost>;
+export class MongoStorage implements IStorage {
+  private inMemoryContacts: Map<string, ContactSubmission>;
+  private inMemoryBlogPosts: Map<string, BlogPost>;
 
   constructor() {
-    this.users = new Map();
-    this.contacts = new Map();
-    this.blogPostsMap = new Map();
+    this.inMemoryContacts = new Map();
+    this.inMemoryBlogPosts = new Map();
   }
 
-  async getUser(id: string): Promise<User | undefined> {
-    return this.users.get(id);
+  private async getBlogPostsCollection(): Promise<Collection<any> | null> {
+    const db = await getDb();
+    return db ? db.collection("blogPosts") : null;
   }
 
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
-  }
-
-  async createUser(insertUser: InsertUser): Promise<User> {
-    const id = randomUUID();
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
-    return user;
+  private async getContactsCollection(): Promise<Collection<any> | null> {
+    const db = await getDb();
+    return db ? db.collection("contactSubmissions") : null;
   }
 
   async createContactSubmission(insertContact: InsertContact): Promise<ContactSubmission> {
     const id = randomUUID();
-    const contact: ContactSubmission = { 
+    const contact: ContactSubmission = {
+      id,
       name: insertContact.name,
       email: insertContact.email,
       company: insertContact.company ?? null,
       message: insertContact.message,
-      id, 
-      createdAt: new Date() 
+      createdAt: new Date(),
     };
-    this.contacts.set(id, contact);
+
+    const collection = await this.getContactsCollection();
+    if (collection) {
+      try {
+        await collection.insertOne({
+          _id: id,
+          ...contact,
+        });
+        return contact;
+      } catch (error) {
+        console.error("Error saving contact to MongoDB:", error);
+      }
+    }
+
+    this.inMemoryContacts.set(id, contact);
     return contact;
   }
 
   async getContactSubmissions(): Promise<ContactSubmission[]> {
-    return Array.from(this.contacts.values()).sort(
+    const collection = await this.getContactsCollection();
+    if (collection) {
+      try {
+        const docs = await collection
+          .find({})
+          .sort({ createdAt: -1 })
+          .toArray();
+        return docs.map(doc => ({
+          id: doc._id,
+          name: doc.name,
+          email: doc.email,
+          company: doc.company,
+          message: doc.message,
+          createdAt: doc.createdAt,
+        }));
+      } catch (error) {
+        console.error("Error fetching contacts from MongoDB:", error);
+      }
+    }
+
+    return Array.from(this.inMemoryContacts.values()).sort(
       (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
     );
   }
 
   async getBlogPosts(publishedOnly: boolean = true): Promise<BlogPost[]> {
-    if (db) {
+    const collection = await this.getBlogPostsCollection();
+    if (collection) {
       try {
-        if (publishedOnly) {
-          return await db.select().from(blogPosts).where(eq(blogPosts.published, true)).orderBy(desc(blogPosts.createdAt));
-        }
-        return await db.select().from(blogPosts).orderBy(desc(blogPosts.createdAt));
+        const filter: Filter<any> = publishedOnly ? { published: true } : {};
+        const docs = await collection
+          .find(filter)
+          .sort({ createdAt: -1 })
+          .toArray();
+        return docs.map(doc => ({
+          id: doc._id,
+          title: doc.title,
+          slug: doc.slug,
+          excerpt: doc.excerpt,
+          content: doc.content,
+          coverImage: doc.coverImage,
+          category: doc.category,
+          author: doc.author,
+          published: doc.published,
+          createdAt: doc.createdAt,
+          updatedAt: doc.updatedAt,
+        }));
       } catch (error) {
-        console.error("Error fetching blog posts from DB:", error);
+        console.error("Error fetching blog posts from MongoDB:", error);
       }
     }
-    
-    const posts = Array.from(this.blogPostsMap.values());
+
+    const posts = Array.from(this.inMemoryBlogPosts.values());
     if (publishedOnly) {
-      return posts.filter(p => p.published).sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+      return posts
+        .filter(p => p.published)
+        .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
     }
     return posts.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
   }
 
   async getBlogPostBySlug(slug: string): Promise<BlogPost | undefined> {
-    if (db) {
+    const collection = await this.getBlogPostsCollection();
+    if (collection) {
       try {
-        const results = await db.select().from(blogPosts).where(eq(blogPosts.slug, slug)).limit(1);
-        return results[0];
+        const doc = await collection.findOne({ slug });
+        if (doc) {
+          return {
+            id: doc._id,
+            title: doc.title,
+            slug: doc.slug,
+            excerpt: doc.excerpt,
+            content: doc.content,
+            coverImage: doc.coverImage,
+            category: doc.category,
+            author: doc.author,
+            published: doc.published,
+            createdAt: doc.createdAt,
+            updatedAt: doc.updatedAt,
+          };
+        }
       } catch (error) {
-        console.error("Error fetching blog post from DB:", error);
+        console.error("Error fetching blog post by slug from MongoDB:", error);
       }
     }
-    
-    return Array.from(this.blogPostsMap.values()).find(p => p.slug === slug);
+
+    return Array.from(this.inMemoryBlogPosts.values()).find(p => p.slug === slug);
   }
 
   async getBlogPostById(id: string): Promise<BlogPost | undefined> {
-    if (db) {
+    const collection = await this.getBlogPostsCollection();
+    if (collection) {
       try {
-        const results = await db.select().from(blogPosts).where(eq(blogPosts.id, id)).limit(1);
-        return results[0];
+        const doc = await collection.findOne({ _id: id });
+        if (doc) {
+          return {
+            id: doc._id,
+            title: doc.title,
+            slug: doc.slug,
+            excerpt: doc.excerpt,
+            content: doc.content,
+            coverImage: doc.coverImage,
+            category: doc.category,
+            author: doc.author,
+            published: doc.published,
+            createdAt: doc.createdAt,
+            updatedAt: doc.updatedAt,
+          };
+        }
       } catch (error) {
-        console.error("Error fetching blog post from DB:", error);
+        console.error("Error fetching blog post by ID from MongoDB:", error);
       }
     }
-    
-    return this.blogPostsMap.get(id);
+
+    return this.inMemoryBlogPosts.get(id);
   }
 
   async createBlogPost(insertPost: InsertBlogPost): Promise<BlogPost> {
-    if (db) {
-      try {
-        const results = await db.insert(blogPosts).values(insertPost).returning();
-        return results[0];
-      } catch (error) {
-        console.error("Error creating blog post in DB:", error);
-      }
-    }
-    
     const id = randomUUID();
+    const now = new Date();
     const post: BlogPost = {
       id,
       title: insertPost.title,
@@ -139,52 +197,90 @@ export class MemStorage implements IStorage {
       category: insertPost.category,
       author: insertPost.author,
       published: insertPost.published ?? false,
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      createdAt: now,
+      updatedAt: now,
     };
-    this.blogPostsMap.set(id, post);
+
+    const collection = await this.getBlogPostsCollection();
+    if (collection) {
+      try {
+        await collection.insertOne({
+          _id: id,
+          ...post,
+        });
+        return post;
+      } catch (error) {
+        console.error("Error creating blog post in MongoDB:", error);
+      }
+    }
+
+    this.inMemoryBlogPosts.set(id, post);
     return post;
   }
 
   async updateBlogPost(id: string, updateData: Partial<InsertBlogPost>): Promise<BlogPost | undefined> {
-    if (db) {
+    const collection = await this.getBlogPostsCollection();
+    const now = new Date();
+
+    if (collection) {
       try {
-        const results = await db
-          .update(blogPosts)
-          .set({ ...updateData, updatedAt: new Date() })
-          .where(eq(blogPosts.id, id))
-          .returning();
-        return results[0];
+        const doc = await collection.findOneAndUpdate(
+          { _id: id },
+          {
+            $set: {
+              ...updateData,
+              updatedAt: now,
+            },
+          },
+          { returnDocument: "after" }
+        );
+
+        if (doc.value) {
+          return {
+            id: doc.value._id,
+            title: doc.value.title,
+            slug: doc.value.slug,
+            excerpt: doc.value.excerpt,
+            content: doc.value.content,
+            coverImage: doc.value.coverImage,
+            category: doc.value.category,
+            author: doc.value.author,
+            published: doc.value.published,
+            createdAt: doc.value.createdAt,
+            updatedAt: doc.value.updatedAt,
+          };
+        }
       } catch (error) {
-        console.error("Error updating blog post in DB:", error);
+        console.error("Error updating blog post in MongoDB:", error);
       }
     }
-    
-    const existing = this.blogPostsMap.get(id);
+
+    const existing = this.inMemoryBlogPosts.get(id);
     if (!existing) return undefined;
-    
+
     const updated: BlogPost = {
       ...existing,
       ...updateData,
       coverImage: updateData.coverImage ?? existing.coverImage,
-      updatedAt: new Date(),
+      updatedAt: now,
     };
-    this.blogPostsMap.set(id, updated);
+    this.inMemoryBlogPosts.set(id, updated);
     return updated;
   }
 
   async deleteBlogPost(id: string): Promise<boolean> {
-    if (db) {
+    const collection = await this.getBlogPostsCollection();
+    if (collection) {
       try {
-        const result = await db.delete(blogPosts).where(eq(blogPosts.id, id)).returning();
-        return result.length > 0;
+        const result = await collection.deleteOne({ _id: id });
+        return result.deletedCount > 0;
       } catch (error) {
-        console.error("Error deleting blog post from DB:", error);
+        console.error("Error deleting blog post from MongoDB:", error);
       }
     }
-    
-    return this.blogPostsMap.delete(id);
+
+    return this.inMemoryBlogPosts.delete(id);
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new MongoStorage();
