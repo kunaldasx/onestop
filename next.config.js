@@ -4,6 +4,11 @@ const nextConfig = {
   allowedDevOrigins: [
     "*.replit.dev",
     "*.sisko.replit.dev",
+    "*.worf.replit.dev",
+    "*.kirk.replit.dev",
+    "*.picard.replit.dev",
+    "*.janeway.replit.dev",
+    "*.spock.replit.dev",
     "*.repl.co",
   ],
   images: {

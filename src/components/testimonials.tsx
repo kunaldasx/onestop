@@ -18,6 +18,7 @@ const testimonials = [
     role: "CTO",
     company: "RetailMax",
     initials: "SC",
+    gradient: "from-blue-500 to-purple-500",
   },
   {
     id: 2,
@@ -27,6 +28,7 @@ const testimonials = [
     role: "Product Director",
     company: "DataFlow Inc",
     initials: "MT",
+    gradient: "from-green-500 to-emerald-500",
   },
   {
     id: 3,
@@ -36,6 +38,7 @@ const testimonials = [
     role: "Marketing VP",
     company: "GrowthLabs",
     initials: "ER",
+    gradient: "from-pink-500 to-rose-500",
   },
   {
     id: 4,
@@ -45,6 +48,7 @@ const testimonials = [
     role: "IT Director",
     company: "HealthFirst",
     initials: "DK",
+    gradient: "from-orange-500 to-yellow-500",
   },
   {
     id: 5,
@@ -54,6 +58,7 @@ const testimonials = [
     role: "Sales Director",
     company: "TechVentures",
     initials: "AF",
+    gradient: "from-cyan-500 to-blue-500",
   },
   {
     id: 6,
@@ -63,8 +68,79 @@ const testimonials = [
     role: "CEO",
     company: "ShopEase",
     initials: "JW",
+    gradient: "from-violet-500 to-purple-500",
   },
 ];
+
+function TestimonialCard({
+  testimonial,
+  isActive,
+}: {
+  testimonial: (typeof testimonials)[0];
+  isActive: boolean;
+}) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <motion.div
+      className="flex-[0_0_100%] min-w-0 md:flex-[0_0_50%] lg:flex-[0_0_33.333%]"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <Card
+        className={`p-8 h-full mx-2 transition-all duration-500 ${
+          isHovered ? "border-primary/30 glow-sm" : "border-border/50"
+        }`}
+        data-testid={`card-testimonial-${testimonial.id}`}
+      >
+        <motion.div
+          className={`w-12 h-12 rounded-xl bg-gradient-to-br ${testimonial.gradient} p-[1px] mb-4`}
+          animate={{ rotate: isHovered ? 5 : 0 }}
+          transition={{ type: "spring", stiffness: 300 }}
+        >
+          <div className="w-full h-full rounded-xl bg-card flex items-center justify-center">
+            <Quote className="w-5 h-5 text-primary" />
+          </div>
+        </motion.div>
+
+        <motion.blockquote
+          className="text-foreground leading-relaxed mb-6 min-h-[120px]"
+          animate={{ x: isHovered ? 5 : 0 }}
+          transition={{ type: "spring", stiffness: 300 }}
+        >
+          "{testimonial.quote}"
+        </motion.blockquote>
+
+        <div className="flex items-center gap-4">
+          <motion.div
+            animate={{ scale: isHovered ? 1.05 : 1 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            <Avatar className={`w-12 h-12 ring-2 ring-offset-2 ring-offset-background ring-transparent ${isHovered ? "ring-primary/30" : ""} transition-all duration-300`}>
+              <AvatarFallback
+                className={`bg-gradient-to-br ${testimonial.gradient} text-white font-medium`}
+              >
+                {testimonial.initials}
+              </AvatarFallback>
+            </Avatar>
+          </motion.div>
+          <div>
+            <motion.div
+              className="font-semibold text-foreground"
+              animate={{ x: isHovered ? 3 : 0 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              {testimonial.author}
+            </motion.div>
+            <div className="text-sm text-muted-foreground">
+              {testimonial.role}, {testimonial.company}
+            </div>
+          </div>
+        </div>
+      </Card>
+    </motion.div>
+  );
+}
 
 export function Testimonials() {
   const [isPlaying, setIsPlaying] = useState(true);
@@ -123,8 +199,16 @@ export function Testimonials() {
   }, [emblaApi, onSelect]);
 
   return (
-    <section id="about" className="py-20 md:py-32 bg-card/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="about" className="py-20 md:py-32 bg-card/50 relative overflow-hidden">
+      <div
+        className="absolute bottom-0 right-0 w-[300px] h-[300px] rounded-full opacity-5 blur-3xl pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(circle, hsl(280 65% 65%) 0%, transparent 70%)",
+        }}
+      />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -132,16 +216,34 @@ export function Testimonials() {
           viewport={{ once: true }}
           className="text-center max-w-3xl mx-auto mb-16"
         >
-          <span className="text-primary font-medium text-sm tracking-wider uppercase">
+          <motion.span
+            className="text-primary font-medium text-sm tracking-wider uppercase"
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+          >
             Testimonials
-          </span>
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mt-4 mb-6">
-            What Our Clients Say
-          </h2>
-          <p className="text-muted-foreground text-lg leading-relaxed">
+          </motion.span>
+          <motion.h2
+            className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mt-4 mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            viewport={{ once: true }}
+          >
+            What Our <span className="gradient-text">Clients Say</span>
+          </motion.h2>
+          <motion.p
+            className="text-muted-foreground text-lg leading-relaxed"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
             Don't just take our word for it. Here's what our partners have to
             say about working with us.
-          </p>
+          </motion.p>
         </motion.div>
 
         <motion.div
@@ -153,95 +255,94 @@ export function Testimonials() {
         >
           <div className="overflow-hidden" ref={emblaRef}>
             <div className="flex gap-6">
-              {testimonials.map((testimonial) => (
-                <div
+              {testimonials.map((testimonial, index) => (
+                <TestimonialCard
                   key={testimonial.id}
-                  className="flex-[0_0_100%] min-w-0 md:flex-[0_0_50%] lg:flex-[0_0_33.333%]"
-                >
-                  <Card
-                    className="p-8 h-full border-border/50 mx-2"
-                    data-testid={`card-testimonial-${testimonial.id}`}
-                  >
-                    <Quote className="w-10 h-10 text-primary/20 mb-4" />
-                    <blockquote className="text-foreground leading-relaxed mb-6 min-h-[120px]">
-                      "{testimonial.quote}"
-                    </blockquote>
-                    <div className="flex items-center gap-4">
-                      <Avatar className="w-12 h-12">
-                        <AvatarFallback className="bg-primary/10 text-primary font-medium">
-                          {testimonial.initials}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <div className="font-semibold text-foreground">
-                          {testimonial.author}
-                        </div>
-                        <div className="text-sm text-muted-foreground">
-                          {testimonial.role}, {testimonial.company}
-                        </div>
-                      </div>
-                    </div>
-                  </Card>
-                </div>
+                  testimonial={testimonial}
+                  isActive={index === selectedIndex}
+                />
               ))}
             </div>
           </div>
 
-          <div className="flex items-center justify-center gap-4 mt-8">
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={scrollPrev}
-              className="rounded-full"
-              data-testid="button-testimonial-prev"
-            >
-              <ChevronLeft className="h-4 w-4" />
-              <span className="sr-only">Previous testimonial</span>
-            </Button>
+          <motion.div
+            className="flex items-center justify-center gap-4 mt-8"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            viewport={{ once: true }}
+          >
+            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={scrollPrev}
+                className="rounded-full hover-glow transition-all duration-300"
+                data-testid="button-testimonial-prev"
+              >
+                <ChevronLeft className="h-4 w-4" />
+                <span className="sr-only">Previous testimonial</span>
+              </Button>
+            </motion.div>
 
             <div className="flex items-center gap-2">
               {testimonials.map((_, index) => (
-                <button
+                <motion.button
                   key={index}
                   onClick={() => emblaApi?.scrollTo(index)}
-                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  className={`h-2 rounded-full transition-all duration-300 ${
                     index === selectedIndex
                       ? "bg-primary w-6"
-                      : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                      : "bg-muted-foreground/30 hover:bg-muted-foreground/50 w-2"
                   }`}
+                  whileHover={{ scale: 1.2 }}
+                  whileTap={{ scale: 0.9 }}
                   data-testid={`button-testimonial-dot-${index}`}
                 />
               ))}
             </div>
 
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={scrollNext}
-              className="rounded-full"
-              data-testid="button-testimonial-next"
-            >
-              <ChevronRight className="h-4 w-4" />
-              <span className="sr-only">Next testimonial</span>
-            </Button>
+            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={scrollNext}
+                className="rounded-full hover-glow transition-all duration-300"
+                data-testid="button-testimonial-next"
+              >
+                <ChevronRight className="h-4 w-4" />
+                <span className="sr-only">Next testimonial</span>
+              </Button>
+            </motion.div>
 
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={toggleAutoplay}
-              className="rounded-full ml-2"
-              data-testid="button-testimonial-autoplay"
+            <motion.div
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              className="ml-2"
             >
-              {isPlaying ? (
-                <Pause className="h-4 w-4" />
-              ) : (
-                <Play className="h-4 w-4" />
-              )}
-              <span className="sr-only">
-                {isPlaying ? "Pause autoplay" : "Play autoplay"}
-              </span>
-            </Button>
-          </div>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={toggleAutoplay}
+                className="rounded-full"
+                data-testid="button-testimonial-autoplay"
+              >
+                <motion.div
+                  animate={{ rotate: isPlaying ? 0 : 180 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {isPlaying ? (
+                    <Pause className="h-4 w-4" />
+                  ) : (
+                    <Play className="h-4 w-4" />
+                  )}
+                </motion.div>
+                <span className="sr-only">
+                  {isPlaying ? "Pause autoplay" : "Play autoplay"}
+                </span>
+              </Button>
+            </motion.div>
+          </motion.div>
         </motion.div>
       </div>
     </section>
