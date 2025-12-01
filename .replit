@@ -1,4 +1,4 @@
-modules = ["nodejs-20"]
+modules = ["nodejs-20", "web"]
 [nix]
 channel = "stable-25_05"
 packages = ["unzip"]
@@ -37,6 +37,10 @@ externalPort = 80
 [[ports]]
 localPort = 42453
 externalPort = 3000
+
+[[ports]]
+localPort = 45053
+externalPort = 3001
 
 [deployment]
 deploymentTarget = "autoscale"
