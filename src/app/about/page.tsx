@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { Card } from "@/components/ui/card";
@@ -141,6 +142,22 @@ export default function AboutPage() {
                     full-service digital agency that partners with companies
                     worldwide to bring their ideas to life.
                   </p>
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5 }}
+                    viewport={{ once: true }}
+                    className="mt-8 rounded-lg overflow-hidden border border-border/50"
+                  >
+                    <Image
+                      src="/about-team.jpg"
+                      alt="OneStop team collaborating"
+                      width={500}
+                      height={300}
+                      className="w-full h-auto object-cover"
+                      priority
+                    />
+                  </motion.div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   {stats.map((stat, index) => (
