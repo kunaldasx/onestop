@@ -1,8 +1,8 @@
-# NexaTech Agency Landing Page - Next.js 15 + MongoDB
+# OneStop Digital Agency - Next.js 15 + MongoDB
 
-## Project Status: ✅ COMPLETE - MongoDB Migration
+## Project Status: ✅ COMPLETE - MongoDB Migration + Rebranding
 
-Successfully migrated from React/Vite/Express + PostgreSQL to Next.js 15 with MongoDB and TypeScript, preserving all functionality and design.
+Successfully migrated from React/Vite/Express + PostgreSQL to Next.js 15 with MongoDB and TypeScript, preserving all functionality and design. Rebranded to "OneStop" - your one-stop solution for software development, SEO, lead generation, and digital services.
 
 ## Final Architecture
 
