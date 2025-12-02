@@ -14,14 +14,19 @@ import type { BlogPost } from "@shared/schema";
 import { format } from "date-fns";
 
 export default function Blog() {
-  const { data: posts, isLoading, error } = useQuery<BlogPost[]>({
+  const { data: posts = [], isLoading, error } = useQuery<BlogPost[]>({
     queryKey: ["/api/blog"],
     queryFn: async () => {
       const response = await fetch("/api/blog");
       if (!response.ok) throw new Error("Failed to fetch posts");
       return response.json();
     },
+    staleTime: 0,
+    refetchOnMount: true,
+    initialData: [],
   });
+
+  const showLoading = isLoading && posts.length === 0;
 
   return (
     <div className="min-h-screen bg-background">
@@ -46,7 +51,7 @@ export default function Blog() {
             </p>
           </motion.div>
 
-          {isLoading ? (
+          {showLoading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[1, 2, 3, 4, 5, 6].map((i) => (
                 <Card key={i} className="overflow-hidden">
