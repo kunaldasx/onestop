@@ -179,8 +179,13 @@ export function Footer() {
                   className="w-full h-full object-cover"
                 />
               </motion.div>
-              <span className="font-display font-bold text-xl text-foreground group-hover:text-primary transition-colors duration-300">
-                OneStop
+              <span className="font-display font-bold text-xl">
+                <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient">
+                  One
+                </span>
+                <span className="text-foreground group-hover:text-primary transition-colors duration-300">
+                  Stop
+                </span>
               </span>
             </Link>
             <p className="text-muted-foreground text-sm leading-relaxed mb-6">

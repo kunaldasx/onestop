@@ -5,6 +5,7 @@ import { queryClient } from "@/lib/queryClient";
 import { ThemeProvider } from "@/components/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/toaster";
+import { WhatsAppButton } from "@/components/whatsapp-button";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -13,6 +14,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         <TooltipProvider>
           <Toaster />
           {children}
+          <WhatsAppButton />
         </TooltipProvider>
       </QueryClientProvider>
     </ThemeProvider>
