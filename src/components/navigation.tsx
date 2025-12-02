@@ -4,7 +4,8 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Menu, X, Code2, Sun, Moon } from "lucide-react";
+import { Menu, X, Sun, Moon } from "lucide-react";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/theme-provider";
 
@@ -85,20 +86,20 @@ export function Navigation() {
                                                                 data-testid="link-logo"
                                                         >
                                                                 <motion.div
-                                                                        className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center relative overflow-hidden"
+                                                                        className="w-10 h-10 rounded-lg overflow-hidden relative"
                                                                         whileHover={{ rotate: 5 }}
                                                                         transition={{
                                                                                 type: "spring",
                                                                                 stiffness: 300,
                                                                         }}
                                                                 >
-                                                                        <motion.div
-                                                                                className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent"
-                                                                                initial={{ x: "-100%" }}
-                                                                                whileHover={{ x: "100%" }}
-                                                                                transition={{ duration: 0.5 }}
+                                                                        <Image
+                                                                                src="/logo.png"
+                                                                                alt="OneStop Logo"
+                                                                                width={40}
+                                                                                height={40}
+                                                                                className="w-full h-full object-cover"
                                                                         />
-                                                                        <Code2 className="w-6 h-6 text-primary-foreground relative z-10" />
                                                                 </motion.div>
                                                                 <span className="font-display font-bold text-xl text-foreground group-hover:text-primary transition-colors duration-300">
                                                                         OneStop

@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   title: "NexaTech - Premium Software Development Agency",
   description: "Transform your ideas into reality with NexaTech. We build modern, scalable web applications, mobile apps, and cloud solutions.",
   icons: {
-    icon: "/favicon.png",
+    icon: "/logo.png",
   },
 };
 
