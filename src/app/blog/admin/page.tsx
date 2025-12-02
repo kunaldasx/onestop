@@ -92,7 +92,7 @@ export default function BlogAdmin() {
       content: "",
       coverImage: "",
       category: "Technology",
-      author: "NexaTech Team",
+      author: "OneStop Team",
       published: false,
     },
   });
@@ -191,7 +191,7 @@ export default function BlogAdmin() {
       content: "",
       coverImage: "",
       category: "Technology",
-      author: "NexaTech Team",
+      author: "OneStop Team",
       published: false,
     });
     setIsDialogOpen(true);

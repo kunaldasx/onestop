@@ -14,10 +14,14 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "NexaTech - Premium Software Development Agency",
-  description: "Transform your ideas into reality with NexaTech. We build modern, scalable web applications, mobile apps, and cloud solutions.",
+  title: "OneStop - Your Complete Digital Solutions Partner",
+  description: "Transform your ideas into reality with OneStop. Your one-stop solution for software development, SEO, lead generation, and all digital services.",
   icons: {
-    icon: "/logo.png",
+    icon: [
+      { url: "/favicon.ico", sizes: "32x32" },
+      { url: "/favicon.png", sizes: "192x192" },
+    ],
+    apple: "/favicon.png",
   },
 };
 

@@ -23,6 +23,10 @@ import {
 	Heart,
 	Shield,
 	Sparkles,
+	CheckCircle2,
+	Globe,
+	Zap,
+	TrendingUp,
 } from "lucide-react";
 
 const values = [
@@ -110,6 +114,25 @@ const team = [
 	},
 ];
 
+const missionPoints = [
+	{
+		icon: Globe,
+		text: "Global reach with local expertise",
+	},
+	{
+		icon: Zap,
+		text: "Fast, efficient delivery without compromising quality",
+	},
+	{
+		icon: TrendingUp,
+		text: "Scalable solutions that grow with your business",
+	},
+	{
+		icon: CheckCircle2,
+		text: "End-to-end support from concept to launch",
+	},
+];
+
 function AnimatedCounter({
 	value,
 	suffix = "",
@@ -172,15 +195,17 @@ export default function AboutPage() {
 							</span>
 						</motion.div>
 						<h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold text-foreground mt-4 mb-6">
-							Building the Future of{" "}
+							Your{" "}
 							<span className="gradient-text">
-								Digital Innovation
-							</span>
+								OneStop
+							</span>{" "}
+							Digital Partner
 						</h1>
 						<p className="text-muted-foreground text-lg leading-relaxed">
 							We're a team of passionate developers, designers,
-							and strategists dedicated to creating exceptional
-							digital experiences that drive business growth.
+							and strategists dedicated to delivering comprehensive
+							digital solutions - from SEO and lead generation to
+							full-scale software development.
 						</p>
 					</motion.div>
 
@@ -190,7 +215,104 @@ export default function AboutPage() {
 						transition={{ duration: 0.5, delay: 0.1 }}
 						className="mb-24"
 					>
-						<Card className="p-8 md:p-12 border-border/50 overflow-hidden relative bg-gradient-to-br from-card via-card to-primary/5">
+						<div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+							<motion.div
+								initial={{ opacity: 0, x: -30 }}
+								whileInView={{ opacity: 1, x: 0 }}
+								transition={{ duration: 0.6 }}
+								viewport={{ once: true }}
+								className="order-2 lg:order-1"
+							>
+								<div className="relative rounded-2xl overflow-hidden group">
+									<Image
+										src="/about-team.jpg"
+										alt="OneStop team collaborating"
+										width={600}
+										height={400}
+										className="w-full h-[300px] md:h-[400px] object-cover transition-transform duration-700 group-hover:scale-105"
+										priority
+									/>
+									<div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+									<div className="absolute bottom-0 left-0 right-0 p-6">
+										<div className="flex items-center gap-3">
+											<div className="w-12 h-12 rounded-full bg-primary/20 backdrop-blur-sm flex items-center justify-center">
+												<Users className="w-6 h-6 text-white" />
+											</div>
+											<div>
+												<p className="text-white font-semibold">15+ Team Members</p>
+												<p className="text-white/70 text-sm">Working Together</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</motion.div>
+
+							<motion.div
+								initial={{ opacity: 0, x: 30 }}
+								whileInView={{ opacity: 1, x: 0 }}
+								transition={{ duration: 0.6 }}
+								viewport={{ once: true }}
+								className="order-1 lg:order-2"
+							>
+								<div className="flex items-center gap-3 mb-6">
+									<motion.div
+										className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-purple-500 p-[1px]"
+										whileHover={{
+											scale: 1.05,
+											rotate: 5,
+										}}
+										transition={{
+											type: "spring",
+											stiffness: 300,
+										}}
+									>
+										<div className="w-full h-full rounded-xl bg-card flex items-center justify-center">
+											<Target className="w-6 h-6 text-primary" />
+										</div>
+									</motion.div>
+									<h2 className="font-display text-3xl font-bold text-foreground">
+										Our Mission
+									</h2>
+								</div>
+								<p className="text-muted-foreground leading-relaxed mb-6 text-lg">
+									At OneStop, we believe technology should empower businesses, not
+									complicate them. Our mission is to bridge the gap between complex
+									technical solutions and real-world business needs.
+								</p>
+								<p className="text-muted-foreground leading-relaxed mb-8">
+									Founded with a vision to make premium digital services accessible to
+									businesses of all sizes, we've grown into a full-service agency that
+									partners with companies worldwide to bring their ideas to life.
+								</p>
+								<div className="space-y-4">
+									{missionPoints.map((point, index) => (
+										<motion.div
+											key={index}
+											initial={{ opacity: 0, x: 20 }}
+											whileInView={{ opacity: 1, x: 0 }}
+											transition={{ duration: 0.4, delay: index * 0.1 }}
+											viewport={{ once: true }}
+											className="flex items-center gap-3 group"
+										>
+											<div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+												<point.icon className="w-5 h-5 text-primary" />
+											</div>
+											<span className="text-foreground font-medium">{point.text}</span>
+										</motion.div>
+									))}
+								</div>
+							</motion.div>
+						</div>
+					</motion.section>
+
+					<motion.section
+						initial={{ opacity: 0, y: 30 }}
+						whileInView={{ opacity: 1, y: 0 }}
+						transition={{ duration: 0.5 }}
+						viewport={{ once: true }}
+						className="mb-24"
+					>
+						<Card className="p-8 md:p-10 border-border/50 overflow-hidden relative bg-gradient-to-br from-card via-card to-primary/5">
 							<div
 								className="absolute top-0 right-0 w-64 h-64 rounded-full opacity-10 blur-3xl pointer-events-none"
 								style={{
@@ -205,101 +327,27 @@ export default function AboutPage() {
 										"radial-gradient(circle, hsl(280 65% 65%) 0%, transparent 70%)",
 								}}
 							/>
-							<div className="flex-col justify-center items-center gap-12 relative z-10">
-								<div className="grid grid-cols-2">
-									<div>
-										<motion.div
-											className="flex items-center gap-3 mb-6"
-											initial={{ opacity: 0, x: -20 }}
-											whileInView={{ opacity: 1, x: 0 }}
-											transition={{ duration: 0.5 }}
-											viewport={{ once: true }}
-										>
-											<motion.div
-												className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary to-purple-500 p-[1px]"
-												whileHover={{
-													scale: 1.05,
-													rotate: 5,
-												}}
-												transition={{
-													type: "spring",
-													stiffness: 300,
-												}}
-											>
-												<div className="w-full h-full rounded-lg bg-card flex items-center justify-center">
-													<Target className="w-6 h-6 text-primary" />
-												</div>
-											</motion.div>
-											<h2 className="font-display text-2xl font-bold text-foreground">
-												Our Mission
-											</h2>
-										</motion.div>
-										<motion.p
-											className="text-muted-foreground leading-relaxed mb-6"
-											initial={{ opacity: 0 }}
-											whileInView={{ opacity: 1 }}
-											transition={{
-												duration: 0.5,
-												delay: 0.1,
-											}}
-											viewport={{ once: true }}
-										>
-											At NexaTech, we believe technology
-											should empower businesses, not
-											complicate them. Our mission is to
-											bridge the gap between complex
-											technical solutions and real-world
-											business needs.
-										</motion.p>
-										<motion.p
-											className="text-muted-foreground leading-relaxed"
-											initial={{ opacity: 0 }}
-											whileInView={{ opacity: 1 }}
-											transition={{
-												duration: 0.5,
-												delay: 0.2,
-											}}
-											viewport={{ once: true }}
-										>
-											Founded with a vision to make
-											premium software development
-											accessible to businesses of all
-											sizes, we've grown into a
-											full-service digital agency that
-											partners with companies worldwide to
-											bring their ideas to life.
-										</motion.p>
-									</div>
-									<motion.div
-										initial={{ opacity: 0, scale: 0.95 }}
-										whileInView={{ opacity: 1, scale: 1 }}
-										transition={{ duration: 0.5 }}
-										viewport={{ once: true }}
-										className="mt-8 rounded-lg overflow-hidden border border-border/50 group"
-									>
-										<div className="relative overflow-hidden">
-											<Image
-												src="/about-team.jpg"
-												alt="NexaTech team collaborating"
-												width={500}
-												height={300}
-												className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
-												priority
-											/>
-											<div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-										</div>
-									</motion.div>
+							<div className="relative z-10">
+								<div className="text-center mb-8">
+									<h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-3">
+										Our Impact in{" "}
+										<span className="gradient-text">Numbers</span>
+									</h2>
+									<p className="text-muted-foreground max-w-lg mx-auto">
+										Delivering results that speak for themselves
+									</p>
 								</div>
-								<div className="grid grid-cols-2 gap-4">
+								<div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
 									{stats.map((stat, index) => (
 										<motion.div
 											key={stat.label}
 											initial={{ opacity: 0, scale: 0.9 }}
-											animate={{ opacity: 1, scale: 1 }}
+											whileInView={{ opacity: 1, scale: 1 }}
 											transition={{
 												duration: 0.4,
-												delay: 0.2 + index * 0.1,
+												delay: index * 0.1,
 											}}
+											viewport={{ once: true }}
 											whileHover={{ y: -5, scale: 1.02 }}
 											className="group"
 										>

@@ -13,7 +13,7 @@ const testimonials = [
   {
     id: 1,
     quote:
-      "NexaTech transformed our outdated systems into a modern, scalable platform. Their expertise and dedication exceeded our expectations. The ROI we've seen has been phenomenal.",
+      "OneStop transformed our outdated systems into a modern, scalable platform. Their expertise and dedication exceeded our expectations. The ROI we've seen has been phenomenal.",
     author: "Sarah Chen",
     role: "CTO",
     company: "RetailMax",
@@ -33,7 +33,7 @@ const testimonials = [
   {
     id: 3,
     quote:
-      "Working with NexaTech was a game-changer. Their SEO expertise helped us achieve top rankings and significantly boosted our organic traffic by 340%.",
+      "Working with OneStop was a game-changer. Their SEO expertise helped us achieve top rankings and significantly boosted our organic traffic by 340%.",
     author: "Emily Rodriguez",
     role: "Marketing VP",
     company: "GrowthLabs",
@@ -43,7 +43,7 @@ const testimonials = [
   {
     id: 4,
     quote:
-      "From concept to deployment, NexaTech handled every aspect of our cloud migration flawlessly. Their team's technical knowledge and professionalism are unmatched.",
+      "From concept to deployment, OneStop handled every aspect of our cloud migration flawlessly. Their team's technical knowledge and professionalism are unmatched.",
     author: "David Kim",
     role: "IT Director",
     company: "HealthFirst",
@@ -53,7 +53,7 @@ const testimonials = [
   {
     id: 5,
     quote:
-      "The lead generation system NexaTech built for us has completely transformed our sales pipeline. We're now closing 50% more deals with better qualified leads.",
+      "The lead generation system OneStop built for us has completely transformed our sales pipeline. We're now closing 50% more deals with better qualified leads.",
     author: "Amanda Foster",
     role: "Sales Director",
     company: "TechVentures",

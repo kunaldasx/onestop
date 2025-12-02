@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { Code2 } from "lucide-react";
+import Image from "next/image";
 import { SiGithub, SiLinkedin, SiX } from "react-icons/si";
 import { useState } from "react";
 
@@ -167,20 +167,20 @@ export function Footer() {
               data-testid="link-footer-logo"
             >
               <motion.div
-                className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center relative overflow-hidden"
+                className="w-10 h-10 rounded-lg overflow-hidden relative"
                 whileHover={{ rotate: 5, scale: 1.05 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent"
-                  initial={{ x: "-100%" }}
-                  whileHover={{ x: "100%" }}
-                  transition={{ duration: 0.5 }}
+                <Image
+                  src="/logo.png"
+                  alt="OneStop Logo"
+                  width={40}
+                  height={40}
+                  className="w-full h-full object-cover"
                 />
-                <Code2 className="w-6 h-6 text-primary-foreground relative z-10" />
               </motion.div>
               <span className="font-display font-bold text-xl text-foreground group-hover:text-primary transition-colors duration-300">
-                NexaTech
+                OneStop
               </span>
             </Link>
             <p className="text-muted-foreground text-sm leading-relaxed mb-6">
@@ -254,12 +254,12 @@ export function Footer() {
             <ul className="space-y-3 text-sm text-muted-foreground">
               <li>
                 <motion.a
-                  href="mailto:hello@nexatech.com"
+                  href="mailto:hello@onestop.com"
                   className="hover:text-foreground transition-colors inline-block"
                   data-testid="link-footer-email"
                   whileHover={{ x: 3 }}
                 >
-                  hello@nexatech.com
+                  hello@onestop.com
                 </motion.a>
               </li>
               <li>
@@ -286,7 +286,7 @@ export function Footer() {
           className="mt-12 pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4"
         >
           <p className="text-sm text-muted-foreground">
-            {currentYear} NexaTech. All rights reserved.
+            {currentYear} OneStop. All rights reserved.
           </p>
           <div className="flex items-center gap-6 text-sm text-muted-foreground">
             <motion.a
