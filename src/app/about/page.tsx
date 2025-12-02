@@ -68,7 +68,7 @@ const stats = [
 		gradient: "from-blue-500 to-purple-500",
 	},
 	{
-		value: 200,
+		value: 50,
 		suffix: "+",
 		label: "Projects Completed",
 		gradient: "from-green-500 to-emerald-500",
@@ -80,7 +80,7 @@ const stats = [
 		gradient: "from-orange-500 to-yellow-500",
 	},
 	{
-		value: 5,
+		value: 3,
 		suffix: "+",
 		label: "Years Experience",
 		gradient: "from-pink-500 to-rose-500",
@@ -89,27 +89,27 @@ const stats = [
 
 const team = [
 	{
-		name: "Alex Chen",
+		name: "Rajat Jaiswal",
 		role: "CEO & Founder",
-		initials: "AC",
-		gradient: "from-blue-500 to-purple-500",
-	},
-	{
-		name: "Sarah Miller",
-		role: "CTO",
-		initials: "SM",
+		initials: "RJ",
 		gradient: "from-green-500 to-emerald-500",
 	},
 	{
-		name: "James Wilson",
+		name: "Kunal Das",
+		role: "CTO",
+		initials: "KD",
+		gradient: "from-blue-500 to-purple-500",
+	},
+	{
+		name: "Aasutosh Jaiswal",
 		role: "Lead Designer",
-		initials: "JW",
+		initials: "AJ",
 		gradient: "from-orange-500 to-yellow-500",
 	},
 	{
-		name: "Emily Rodriguez",
+		name: "Shakshi Verma",
 		role: "Project Manager",
-		initials: "ER",
+		initials: "SV",
 		gradient: "from-pink-500 to-rose-500",
 	},
 ];
@@ -195,17 +195,14 @@ export default function AboutPage() {
 							</span>
 						</motion.div>
 						<h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold text-foreground mt-4 mb-6">
-							Your{" "}
-							<span className="gradient-text">
-								OneStop
-							</span>{" "}
+							Your <span className="gradient-text">OneStop</span>{" "}
 							Digital Partner
 						</h1>
 						<p className="text-muted-foreground text-lg leading-relaxed">
 							We're a team of passionate developers, designers,
-							and strategists dedicated to delivering comprehensive
-							digital solutions - from SEO and lead generation to
-							full-scale software development.
+							and strategists dedicated to delivering
+							comprehensive digital solutions - from SEO and lead
+							generation to full-scale software development.
 						</p>
 					</motion.div>
 
@@ -215,7 +212,7 @@ export default function AboutPage() {
 						transition={{ duration: 0.5, delay: 0.1 }}
 						className="mb-24"
 					>
-						<div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+						<div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
 							<motion.div
 								initial={{ opacity: 0, x: -30 }}
 								whileInView={{ opacity: 1, x: 0 }}
@@ -239,8 +236,12 @@ export default function AboutPage() {
 												<Users className="w-6 h-6 text-white" />
 											</div>
 											<div>
-												<p className="text-white font-semibold">15+ Team Members</p>
-												<p className="text-white/70 text-sm">Working Together</p>
+												<p className="text-white font-semibold">
+													15+ Team Members
+												</p>
+												<p className="text-white/70 text-sm">
+													Working Together
+												</p>
 											</div>
 										</div>
 									</div>
@@ -275,14 +276,18 @@ export default function AboutPage() {
 									</h2>
 								</div>
 								<p className="text-muted-foreground leading-relaxed mb-6 text-lg">
-									At OneStop, we believe technology should empower businesses, not
-									complicate them. Our mission is to bridge the gap between complex
-									technical solutions and real-world business needs.
+									At OneStop, we believe technology should
+									empower businesses, not complicate them. Our
+									mission is to bridge the gap between complex
+									technical solutions and real-world business
+									needs.
 								</p>
 								<p className="text-muted-foreground leading-relaxed mb-8">
-									Founded with a vision to make premium digital services accessible to
-									businesses of all sizes, we've grown into a full-service agency that
-									partners with companies worldwide to bring their ideas to life.
+									Founded with a vision to make premium
+									digital services accessible to businesses of
+									all sizes, we've grown into a full-service
+									agency that partners with companies
+									worldwide to bring their ideas to life.
 								</p>
 								<div className="space-y-4">
 									{missionPoints.map((point, index) => (
@@ -290,14 +295,19 @@ export default function AboutPage() {
 											key={index}
 											initial={{ opacity: 0, x: 20 }}
 											whileInView={{ opacity: 1, x: 0 }}
-											transition={{ duration: 0.4, delay: index * 0.1 }}
+											transition={{
+												duration: 0.4,
+												delay: index * 0.1,
+											}}
 											viewport={{ once: true }}
 											className="flex items-center gap-3 group"
 										>
 											<div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
 												<point.icon className="w-5 h-5 text-primary" />
 											</div>
-											<span className="text-foreground font-medium">{point.text}</span>
+											<span className="text-foreground font-medium">
+												{point.text}
+											</span>
 										</motion.div>
 									))}
 								</div>
@@ -331,10 +341,13 @@ export default function AboutPage() {
 								<div className="text-center mb-8">
 									<h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-3">
 										Our Impact in{" "}
-										<span className="gradient-text">Numbers</span>
+										<span className="gradient-text">
+											Numbers
+										</span>
 									</h2>
 									<p className="text-muted-foreground max-w-lg mx-auto">
-										Delivering results that speak for themselves
+										Delivering results that speak for
+										themselves
 									</p>
 								</div>
 								<div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
@@ -342,7 +355,10 @@ export default function AboutPage() {
 										<motion.div
 											key={stat.label}
 											initial={{ opacity: 0, scale: 0.9 }}
-											whileInView={{ opacity: 1, scale: 1 }}
+											whileInView={{
+												opacity: 1,
+												scale: 1,
+											}}
 											transition={{
 												duration: 0.4,
 												delay: index * 0.1,

@@ -10,24 +10,25 @@ import { PricingCalculator } from "@/components/pricing-calculator";
 import { Contact } from "@/components/contact";
 import { CTA } from "@/components/cta";
 import { Footer } from "@/components/footer";
+import { useEffect } from "react";
 
 export default function Home() {
-  return (
-    <div className="min-h-screen bg-background">
-      <Navigation />
-      <main>
-        <Hero />
-        <Services />
-        <CaseStudies />
-        <TechStack />
-        <Process />
-        <Testimonials />
-        <Stats />
-        <PricingCalculator />
-        <CTA />
-        <Contact />
-      </main>
-      <Footer />
-    </div>
-  );
+	return (
+		<div className="min-h-screen bg-background">
+			<Navigation />
+			<main>
+				<Hero />
+				<Services />
+				<CaseStudies />
+				<TechStack />
+				<Process />
+				<Testimonials />
+				<Stats />
+				<PricingCalculator />
+				<CTA />
+				<Contact />
+			</main>
+			<Footer />
+		</div>
+	);
 }
