@@ -222,7 +222,7 @@ export default function AboutPage() {
 							>
 								<div className="relative rounded-2xl overflow-hidden group">
 									<Image
-										src="/about-team.jpg"
+										src="/assets/about-team.jpg"
 										alt="OneStop team collaborating"
 										width={600}
 										height={400}
