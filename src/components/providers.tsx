@@ -8,15 +8,15 @@ import { Toaster } from "@/components/ui/toaster";
 import { WhatsAppButton } from "@/components/whatsapp-button";
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  return (
-    <ThemeProvider defaultTheme="dark">
-      <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          <Toaster />
-          {children}
-          <WhatsAppButton />
-        </TooltipProvider>
-      </QueryClientProvider>
-    </ThemeProvider>
-  );
+	return (
+		<ThemeProvider defaultTheme="dark">
+			<QueryClientProvider client={queryClient}>
+				<TooltipProvider>
+					<Toaster />
+					{children}
+					<WhatsAppButton />
+				</TooltipProvider>
+			</QueryClientProvider>
+		</ThemeProvider>
+	);
 }

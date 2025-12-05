@@ -28,18 +28,18 @@ export async function POST(request: NextRequest) {
 		// -------------------------------
 
 		await resend.emails.send({
-			from: "Onestop Notifications <no-reply@yourdomain.com>",
+			from: "Onestop Notifications <contact.onestophq@gmail.com>",
 			to: process.env.SUPPORT_EMAIL!, // e.g. support@onestop.com
 			subject: "🔔 New Contact Form Submission",
 			html: `
-        <h2>New Contact Form Submission</h2>
-        <p><strong>Name:</strong> ${data.name}</p>
-        <p><strong>Email:</strong> ${data.email}</p>
-        <p><strong>Company:</strong> ${data.company ?? "N/A"}</p>
-        <p><strong>Message:</strong><br/>${data.message}</p>
-        <br/>
-        <p><i>Submitted at: ${new Date().toISOString()}</i></p>
-      `,
+			<h2>New Contact Form Submission</h2>
+			<p><strong>Name:</strong> ${data.name}</p>
+			<p><strong>Email:</strong> ${data.email}</p>
+			<p><strong>Company:</strong> ${data.company ?? "N/A"}</p>
+			<p><strong>Message:</strong><br/>${data.message}</p>
+			<br/>
+			<p><i>Submitted at: ${new Date().toISOString()}</i></p>
+			`,
 		});
 
 		// -------------------------------
@@ -47,20 +47,20 @@ export async function POST(request: NextRequest) {
 		// -------------------------------
 
 		await resend.emails.send({
-			from: "Onestop Support <no-reply@yourdomain.com>",
+			from: "Onestop Support <contact.onestophq@gmail.com>",
 			to: data.email,
 			subject: "Thanks for contacting Onestop!",
 			html: `
-        <h2>Hi ${data.name},</h2>
-        <p>Thanks for reaching out! We’ve received your message and our team will get back to you shortly.</p>
+			<h2>Hi ${data.name},</h2>
+			<p>Thanks for reaching out! We’ve received your message and our team will get back to you shortly.</p>
 
-        <p><strong>Your message:</strong></p>
-        <blockquote>${data.message}</blockquote>
+			<p><strong>Your message:</strong></p>
+			<blockquote>${data.message}</blockquote>
 
-        <p>If this wasn’t you, feel free to ignore this email.</p>
-        <br/>
-        <p>— The Onestop Team</p>
-      `,
+			<p>If this wasn’t you, feel free to ignore this email.</p>
+			<br/>
+			<p>— The Onestop Team</p>
+			`,
 		});
 
 		return NextResponse.json(

@@ -3,8 +3,9 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { SiGithub, SiLinkedin, SiX } from "react-icons/si";
+import { SiGithub, SiInstagram, SiLinkedin, SiX } from "react-icons/si";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 type FooterLink = {
 	label: string;
@@ -18,11 +19,14 @@ const footerLinks = {
 		{ label: "Mobile Apps", href: "#services" },
 		{ label: "Cloud Solutions", href: "#services" },
 		{ label: "SEO & Marketing", href: "#services" },
+		{ label: "Lead Generation", href: "#services" },
+		{ label: "Marketplace Management", href: "#services" },
 	] as FooterLink[],
 	company: [
-		{ label: "About Us", href: "#about" },
+		{ label: "About Us", href: "/about" },
+		{ label: "Services", href: "#services" },
 		{ label: "Our Work", href: "#work" },
-		{ label: "Blog", href: "/blog", isPage: true },
+		{ label: "Pricing", href: "#pricing" },
 		{ label: "Contact", href: "#contact" },
 	] as FooterLink[],
 	resources: [
@@ -31,9 +35,17 @@ const footerLinks = {
 		{ label: "Process", href: "#process" },
 	] as FooterLink[],
 	social: [
-		{ icon: SiGithub, label: "GitHub", href: "https://github.com" },
-		{ icon: SiLinkedin, label: "LinkedIn", href: "https://linkedin.com" },
-		{ icon: SiX, label: "X", href: "https://x.com" },
+		{
+			icon: SiInstagram,
+			label: "Instagram",
+			href: "https://www.instagram.com/onestop_software",
+		},
+		{
+			icon: SiLinkedin,
+			label: "LinkedIn",
+			href: "https://www.linkedin.com/in/onestop-software",
+		},
+		{ icon: SiX, label: "X", href: "https://x.com/onestop_team" },
 	],
 };
 
@@ -128,16 +140,18 @@ function SocialButton({ social }: { social: (typeof footerLinks.social)[0] }) {
 }
 
 export function Footer() {
+	const router = useRouter();
+
 	const handleLinkClick = (link: FooterLink) => {
-		if (link.isPage) {
-			return;
-		}
 		if (link.href.startsWith("#")) {
 			const element = document.querySelector(link.href);
 			if (element) {
 				element.scrollIntoView({ behavior: "smooth" });
 			}
+			return;
 		}
+
+		router.push(link.href);
 	};
 
 	const currentYear = new Date().getFullYear();
@@ -274,17 +288,27 @@ export function Footer() {
 									data-testid="link-footer-email"
 									whileHover={{ x: 3 }}
 								>
-									hello@onestop.com
+									contact.onestophq@gmail.com
 								</motion.a>
 							</li>
 							<li>
 								<motion.a
-									href="tel:+15551234567"
+									href="tel:+919394070912"
 									className="hover:text-foreground transition-colors inline-block"
 									data-testid="link-footer-phone"
 									whileHover={{ x: 3 }}
 								>
-									+91 9394070912 +91 6900100109
+									+91 9394070912
+								</motion.a>
+							</li>
+							<li>
+								<motion.a
+									href="tel:+916900100109"
+									className="hover:text-foreground transition-colors inline-block"
+									data-testid="link-footer-phone"
+									whileHover={{ x: 3 }}
+								>
+									+91 6900100109
 								</motion.a>
 							</li>
 							<li>Guwahati, Assam</li>

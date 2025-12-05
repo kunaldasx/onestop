@@ -35,8 +35,8 @@ const contactInfo = [
 	{
 		icon: Mail,
 		label: "Email",
-		value: "hello@nexatech.com",
-		href: "mailto:hello@nexatech.com",
+		value: "contact.onestophq@gmail.com",
+		href: "mailto:contact.onestophq@gmail.com",
 	},
 	{
 		icon: Phone,
@@ -45,15 +45,9 @@ const contactInfo = [
 		href: "tel:+919394070912",
 	},
 	{
-		icon: Phone,
-		label: "Alt Phone",
-		value: "+91 6900100109",
-		href: "tel:+916900100109",
-	},
-	{
 		icon: MapPin,
 		label: "Office",
-		value: "San Francisco, CA",
+		value: "Guwahati, Assam",
 		href: "#",
 	},
 ];

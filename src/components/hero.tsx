@@ -55,7 +55,7 @@ export function Hero() {
 				style={{ y: prefersReducedMotion ? 0 : y }}
 			>
 				<Image
-					src="/generated_images/hero_tech_workspace_image.png"
+					src="/assets/hero_tech_workspace_image.png"
 					alt="Modern software development workspace"
 					fill
 					className="object-cover"
@@ -178,7 +178,7 @@ export function Hero() {
 							<Button
 								size="lg"
 								onClick={() => scrollToSection("#contact")}
-								className="px-8 py-6 text-lg font-medium gap-2 group relative overflow-hidden"
+								className="px-8 py-4 text-lg font-medium gap-2 group relative overflow-hidden"
 								data-testid="button-hero-cta"
 							>
 								<span className="relative z-10 flex items-center gap-2">
@@ -201,7 +201,7 @@ export function Hero() {
 								variant="outline"
 								size="lg"
 								onClick={() => scrollToSection("#work")}
-								className="px-8 py-6 text-lg font-medium bg-background/50 backdrop-blur-sm hover-glow transition-all duration-300"
+								className="px-8 py-4 text-lg font-medium bg-background/50 backdrop-blur-sm hover-glow transition-all duration-300"
 								data-testid="button-hero-secondary"
 							>
 								View Our Work

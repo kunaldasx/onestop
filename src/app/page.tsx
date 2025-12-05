@@ -10,7 +10,6 @@ import { PricingCalculator } from "@/components/pricing-calculator";
 import { Contact } from "@/components/contact";
 import { CTA } from "@/components/cta";
 import { Footer } from "@/components/footer";
-import { useEffect } from "react";
 
 export default function Home() {
 	return (
