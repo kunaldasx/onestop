@@ -1,0 +1,542 @@
+"use client";
+
+import {
+ motion,
+ useInView,
+ useMotionValue,
+ useTransform,
+ animate,
+} from "framer-motion";
+import Image from "next/image";
+import { Navigation } from "@/components/navigation";
+import { Footer } from "@/components/footer";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { useRef, useEffect, useState } from "react";
+import {
+ Users,
+ Target,
+ Lightbulb,
+ ArrowRight,
+ Rocket,
+ Heart,
+ Shield,
+ Sparkles,
+} from "lucide-react";
+
+const values = [
+ {
+  icon: Lightbulb,
+  title: "Innovation First",
+  description:
+   "We constantly push boundaries and embrace new technologies to deliver cutting-edge solutions.",
+  gradient: "from-amber-500 to-orange-500",
+ },
+ {
+  icon: Users,
+  title: "Client Partnership",
+  description:
+   "We work as an extension of your team, ensuring your success is our primary goal.",
+  gradient: "from-blue-500 to-cyan-500",
+ },
+ {
+  icon: Shield,
+  title: "Quality Assurance",
+  description:
+   "Every line of code is crafted with precision and tested rigorously for reliability.",
+  gradient: "from-green-500 to-emerald-500",
+ },
+ {
+  icon: Heart,
+  title: "Passion Driven",
+  description:
+   "We love what we do, and that passion translates into exceptional results for our clients.",
+  gradient: "from-pink-500 to-rose-500",
+ },
+];
+
+const stats = [
+ {
+  value: 50,
+  suffix: "+",
+  label: "Happy Clients",
+  gradient: "from-blue-500 to-purple-500",
+ },
+ {
+  value: 50,
+  suffix: "+",
+  label: "Projects Completed",
+  gradient: "from-green-500 to-emerald-500",
+ },
+ {
+  value: 15,
+  suffix: "+",
+  label: "Team Members",
+  gradient: "from-orange-500 to-yellow-500",
+ },
+ {
+  value: 3,
+  suffix: "+",
+  label: "Years Experience",
+  gradient: "from-pink-500 to-rose-500",
+ },
+];
+
+const team = [
+ {
+  name: "Rajat Jaiswal",
+  role: "CEO & Founder",
+  initials: "RJ",
+  gradient: "from-green-500 to-emerald-500",
+ },
+ {
+  name: "Priyanka Mandal",
+  role: "CTO",
+  initials: "KD",
+  gradient: "from-blue-500 to-purple-500",
+ },
+ {
+  name: "Aasutosh Jaiswal",
+  role: "Project Manager",
+  initials: "AJ",
+  gradient: "from-orange-500 to-yellow-500",
+ },
+ {
+  name: "Kunal Das",
+  role: "Designer & Developer",
+  initials: "KD",
+  gradient: "from-pink-500 to-rose-500",
+ },
+];
+
+const missionPoints = [
+ {
+  icon: "🌍",
+  text: "Global reach with local expertise",
+ },
+ {
+  icon: "⚡",
+  text: "Fast, efficient delivery without compromising quality",
+ },
+ {
+  icon: "📈",
+  text: "Scalable solutions that grow with your business",
+ },
+ {
+  icon: "✅",
+  text: "End-to-end support from concept to launch",
+ },
+];
+
+function AnimatedCounter({
+ value,
+ suffix = "",
+}: {
+ value: number;
+ suffix?: string;
+}) {
+ const ref = useRef(null);
+ const isInView = useInView(ref, { once: true, margin: "-100px" });
+ const count = useMotionValue(0);
+ const rounded = useTransform(count, (latest) => Math.round(latest));
+ const [displayValue, setDisplayValue] = useState(0);
+
+ useEffect(() => {
+  if (isInView) {
+   const controls = animate(count, value, {
+    duration: 2,
+    ease: "easeOut",
+   });
+   const unsubscribe = rounded.on("change", (v) => setDisplayValue(v));
+   return () => {
+    controls.stop();
+    unsubscribe();
+   };
+  }
+ }, [isInView, value, count, rounded]);
+
+ return (
+  <span
+   ref={ref}
+   className="font-display text-3xl md:text-4xl font-bold text-primary"
+  >
+   {displayValue}
+   {suffix}
+  </span>
+ );
+}
+
+export default function AboutPage() {
+ return (
+  <div className="min-h-screen bg-background">
+   <Navigation />
+   <main className="pt-32 pb-20">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="text-center max-w-3xl mx-auto mb-16"
+     >
+      <motion.div
+       initial={{ opacity: 0, scale: 0.9 }}
+       animate={{ opacity: 1, scale: 1 }}
+       transition={{ duration: 0.5 }}
+       className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-1.5 mb-6"
+      >
+       <Sparkles className="w-4 h-4 text-primary" />
+       <span className="text-primary font-medium text-sm">About Us</span>
+      </motion.div>
+      <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold text-foreground mt-4 mb-6">
+       Your <span className="gradient-text">OneStop</span> Digital Partner
+      </h1>
+      <p className="text-muted-foreground text-lg leading-relaxed">
+       We're a team of passionate developers, designers, and strategists
+       dedicated to delivering comprehensive digital solutions - from SEO and
+       lead generation to full-scale software development.
+      </p>
+     </motion.div>
+
+     <motion.section
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: 0.1 }}
+      className="mb-24"
+     >
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+       <motion.div
+        initial={{ opacity: 0, x: -30 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+        className="order-2 lg:order-1 w-full"
+       >
+        <div className="relative rounded-2xl overflow-hidden group">
+         <Image
+          src="/assets/about-team.jpg"
+          alt="OneStop team collaborating"
+          width={600}
+          height={400}
+          className="w-full h-[300px] md:h-[400px] object-cover transition-transform duration-700 group-hover:scale-105"
+          priority
+         />
+         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+         <div className="absolute bottom-0 left-0 right-0 p-6">
+          <div className="flex items-center gap-3">
+           <div className="w-12 h-12 rounded-full bg-primary/20 backdrop-blur-sm flex items-center justify-center">
+            <Users className="w-6 h-6 text-white" />
+           </div>
+           <div>
+            <p className="text-white">15+ Team Members</p>
+            <p className="text-white/70">Working Together</p>
+           </div>
+          </div>
+         </div>
+        </div>
+       </motion.div>
+
+       <motion.div
+        initial={{ opacity: 0, x: 30 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+        className="order-1 lg:order-2 w-full"
+       >
+        <div className="flex items-center gap-3 mb-6">
+         <motion.div
+          className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center flex-shrink-0"
+          whileHover={{
+           scale: 1.1,
+          }}
+          transition={{
+           type: "spring",
+           stiffness: 300,
+          }}
+         >
+          <Target className="w-5 h-5 text-white" />
+         </motion.div>
+         <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground">
+          Our Mission
+         </h2>
+        </div>
+        <p className="text-muted-foreground leading-relaxed mb-6 text-lg">
+         At OneStop, we believe technology should empower businesses, not
+         complicate them. Our mission is to bridge the gap between complex
+         technical solutions and real-world business needs.
+        </p>
+        <p className="text-muted-foreground text-lg leading-relaxed mb-8">
+         Founded with a vision to make premium digital services accessible to
+         businesses of all sizes, we've grown into a full-service agency that
+         partners with companies worldwide to bring their ideas to life.
+        </p>
+        {/* <div className="space-y-4">
+         {missionPoints.map((point, index) => (
+          <motion.div
+           key={index}
+           initial={{ opacity: 0, x: 20 }}
+           whileInView={{ opacity: 1, x: 0 }}
+           transition={{
+            duration: 0.4,
+            delay: index * 0.1,
+           }}
+           viewport={{ once: true }}
+           className="flex items-center gap-3 group"
+          >
+           <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform text-lg">
+            {point.icon}
+           </div>
+           <span className="text-foreground text-2xl  md:text-lg">
+            {point.text}
+           </span>
+          </motion.div>
+         ))}
+        </div> */}
+       </motion.div>
+      </div>
+     </motion.section>
+
+     <motion.section
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      viewport={{ once: true }}
+      className="mb-24"
+     >
+      <Card className="p-8 md:p-10 border-border/50 overflow-hidden relative bg-gradient-to-br from-card via-card to-primary/5">
+       <div
+        className="absolute top-0 right-0 w-64 h-64 rounded-full opacity-10 blur-3xl pointer-events-none"
+        style={{
+         background:
+          "radial-gradient(circle, hsl(var(--primary)) 0%, transparent 70%)",
+        }}
+       />
+       <div
+        className="absolute bottom-0 left-0 w-48 h-48 rounded-full opacity-10 blur-3xl pointer-events-none"
+        style={{
+         background:
+          "radial-gradient(circle, hsl(280 65% 65%) 0%, transparent 70%)",
+        }}
+       />
+       <div className="relative z-10">
+        <div className="text-center mb-8">
+         <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-3">
+          Our Impact in <span className="gradient-text">Numbers</span>
+         </h2>
+         <p className="text-muted-foreground max-w-lg mx-auto">
+          Delivering results that speak for themselves
+         </p>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+         {stats.map((stat, index) => (
+          <motion.div
+           key={stat.label}
+           initial={{ opacity: 0, scale: 0.9 }}
+           whileInView={{
+            opacity: 1,
+            scale: 1,
+           }}
+           transition={{
+            duration: 0.4,
+            delay: index * 0.1,
+           }}
+           viewport={{ once: true }}
+           whileHover={{ y: -5, scale: 1.02 }}
+           className="group"
+          >
+           <Card className="text-center p-6 rounded-xl bg-card border border-border/50 relative overflow-hidden h-full hover:border-primary/30 transition-colors">
+            <div
+             className={`absolute -top-10 -right-10 w-20 h-20 rounded-full bg-gradient-to-br ${stat.gradient} opacity-0 group-hover:opacity-20 blur-2xl transition-all duration-500`}
+            />
+            <div className="relative z-10">
+             <AnimatedCounter value={stat.value} suffix={stat.suffix} />
+             <div className="text-sm text-muted-foreground mt-2">
+              {stat.label}
+             </div>
+             <motion.div
+              className={`w-8 h-1 mx-auto mt-3 rounded-full bg-gradient-to-r ${stat.gradient}`}
+              initial={{ width: 0 }}
+              whileInView={{
+               width: 32,
+              }}
+              transition={{
+               delay: 0.5 + index * 0.1,
+               duration: 0.5,
+              }}
+              viewport={{
+               once: true,
+              }}
+             />
+            </div>
+           </Card>
+          </motion.div>
+         ))}
+        </div>
+       </div>
+      </Card>
+     </motion.section>
+
+     <motion.section
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      viewport={{ once: true }}
+      className="mb-24"
+     >
+      <div className="text-center mb-12">
+       <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
+        Our Core <span className="gradient-text">Values</span>
+       </h2>
+       <p className="text-muted-foreground max-w-2xl mx-auto">
+        These principles guide everything we do and shape how we work with our
+        clients.
+       </p>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+       {values.map((value, index) => (
+        <motion.div
+         key={value.title}
+         initial={{ opacity: 0, y: 20 }}
+         whileInView={{ opacity: 1, y: 0 }}
+         transition={{
+          duration: 0.4,
+          delay: index * 0.1,
+         }}
+         viewport={{ once: true }}
+         className="h-full"
+        >
+         <Card className="p-6 h-full border-border/50 relative overflow-hidden group hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+          <div className="relative z-10 flex flex-col h-full">
+           <motion.div
+            className={`w-10 h-10 rounded-lg bg-gradient-to-br ${value.gradient} flex items-center justify-center mb-4 flex-shrink-0`}
+            whileHover={{
+             scale: 1.1,
+            }}
+            transition={{
+             type: "spring",
+             stiffness: 300,
+            }}
+           >
+            <value.icon className="w-5 h-5 text-white" />
+           </motion.div>
+           <h3 className="font-display text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
+            {value.title}
+           </h3>
+           <p className="text-muted-foreground text-sm leading-relaxed flex-1">
+            {value.description}
+           </p>
+          </div>
+         </Card>
+        </motion.div>
+       ))}
+      </div>
+     </motion.section>
+
+     <motion.section
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      viewport={{ once: true }}
+      className="mb-24"
+     >
+      <div className="text-center mb-12">
+       <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
+        Meet Our <span className="gradient-text">Team</span>
+       </h2>
+       <p className="text-muted-foreground max-w-2xl mx-auto">
+        Talented individuals working together to create amazing digital
+        experiences.
+       </p>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+       {team.map((member, index) => (
+        <motion.div
+         key={member.name}
+         initial={{ opacity: 0, y: 20 }}
+         whileInView={{ opacity: 1, y: 0 }}
+         transition={{
+          duration: 0.4,
+          delay: index * 0.1,
+         }}
+         viewport={{ once: true }}
+         className="h-full"
+        >
+         <Card className="p-6 text-center border-border/50 relative overflow-hidden group hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 h-full flex flex-col">
+          <div
+           className={`absolute inset-0 bg-gradient-to-br ${member.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}
+          />
+          <div className="relative z-10 flex flex-col items-center">
+           <motion.div
+            className={`w-16 h-16 rounded-full bg-gradient-to-br ${member.gradient} mx-auto mb-4`}
+            whileHover={{ scale: 1.1 }}
+            transition={{
+             type: "spring",
+             stiffness: 300,
+            }}
+           >
+            <div className="w-full h-full rounded-full bg-card flex items-center justify-center">
+             <span className="text-lg font-bold gradient-text">
+              {member.initials}
+             </span>
+            </div>
+           </motion.div>
+           <h3 className="font-display text-base md:text-lg font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">
+            {member.name}
+           </h3>
+           <p className="text-primary text-sm font-medium">{member.role}</p>
+          </div>
+         </Card>
+        </motion.div>
+       ))}
+      </div>
+     </motion.section>
+
+     <motion.section
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      viewport={{ once: true }}
+     >
+      <Card className="p-8 md:p-12 text-center border-border/50 bg-gradient-to-br from-primary/10 via-primary/5 to-purple-500/10 relative overflow-hidden">
+       <div
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[200px] rounded-full opacity-20 blur-3xl pointer-events-none"
+        style={{
+         background:
+          "radial-gradient(circle, hsl(var(--primary)) 0%, transparent 70%)",
+        }}
+       />
+       <div className="relative z-10 flex flex-col items-center">
+        <motion.div
+         className="w-14 h-14 rounded-full bg-gradient-to-br from-primary to-purple-500 mx-auto mb-6 flex items-center justify-center"
+         whileHover={{ scale: 1.1 }}
+         transition={{
+          type: "spring",
+          stiffness: 300,
+         }}
+        >
+         <Rocket className="w-7 h-7 text-white" />
+        </motion.div>
+        <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-4">
+         Ready to Start Your <span className="gradient-text">Project?</span>
+        </h2>
+        <p className="text-muted-foreground max-w-xl mx-auto mb-8">
+         Let's discuss how we can help bring your vision to life. Our team is
+         ready to tackle your next big challenge.
+        </p>
+        <Link href="/#contact">
+         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
+          <Button size="lg" className="font-medium group">
+           Get in Touch
+           <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+          </Button>
+         </motion.div>
+        </Link>
+       </div>
+      </Card>
+     </motion.section>
+    </div>
+   </main>
+   <Footer />
+  </div>
+ );
+}
